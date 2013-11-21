@@ -142,9 +142,8 @@
                     }
                 },
                 newHandler = function(event) {
-                    if (settings.preventDefault  === true) { event.preventDefault();  }
-                    if (settings.stopPropagation === true) { event.stopPropagation(); }
                     if (hasIntent) { return oldHandler.apply(elem, arguments); }
+                    else { preventAndStopIfSet(settings, event); }
                 };
 
             $(elem).on('mouseenter', function(event) {
@@ -171,9 +170,6 @@
                 maxDelay   = method === "throttle" ? delay : settings.maxDelay,
                 oldHandler = handleObj.handler,
                 newHandler = function(event) {
-                    if ( settings.preventDefault  === true ) { event.preventDefault();  }
-                    if ( settings.stopPropagation === true ) { event.stopPropagation(); }
-
                     var args = arguments,
                         clear = function() {
                             if ( maxTimeout ) { clearTimeout(maxTimeout); }
@@ -237,6 +233,12 @@
 
     function nullLowestDelta() {
         lowestDelta = null;
+    }
+
+    // Used by intent and delay handlers
+    function preventAndStopIfSet(settings, event) {
+        if (settings.preventDefault  === true) { event.preventDefault();  }
+        if (settings.stopPropagation === true) { event.stopPropagation(); }
     }
 
 }));
