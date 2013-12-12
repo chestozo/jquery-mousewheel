@@ -123,6 +123,10 @@
         // Add event and delta to the front of the arguments
         args.unshift(event, delta, deltaX, deltaY);
 
+        if (deltaY == -1 && orgEvent.deltaY > 1) {
+            debugger;
+        }
+
         // Clearout lowestDelta after sometime to better
         // handle multiple device types that give different
         // a different lowestDelta
